@@ -1,12 +1,12 @@
 # 1. Lengths
 
-# words = ["hello", "what", "is", "up", "dude"]
+words = ["hello", "what", "is", "up", "dude"]
 
-# lengths do | arr |
-#     arr.split(' ').each
-# end
+def lengths arr
+   p arr.map {|word| word.length} 
+end
 
-
+lengths(words)
 # 2. Transmogrifier
 
 
@@ -53,3 +53,34 @@ end
 
 
 letter_reverse("Now I know what TV dinner feels like")
+
+
+# 6 longest
+
+def longest arr
+    p arr.flat_map(&:split).max_by(&:length)
+    
+end
+
+array = ["Nothing" , "takes", "the", "taste", "out", "of", "peanut", "butter", "quite", "like", "unrequited", "love"]
+
+longest(array)
+
+# 7 check_prime & get_prime
+
+
+def check_prime num
+    if (2..num-1).none? {|divisor| num % divisor == 0}
+        p true
+    else
+        p false
+    end
+end
+
+check_prime(9)
+
+
+def get_prime rage
+    
+end
+
