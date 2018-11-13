@@ -23,7 +23,7 @@
 class Word
     WORD_ARRAY = ["knot", "tie", "bow", "needle"].freeze
 
-    attr_accessor :game_word
+    attr_accessor :guessed_word
 
     def initialize
         @game_word = WORD_ARRAY.sample
@@ -62,28 +62,47 @@ class Hangman
     end
     def play_game
         loop do 
-            puts 
-            input = get.chomp
-            if input == Word.check_letter
+            puts "Here is your word #{@word.guessed_word}" 
+            input = gets.chomp
+            
+            if @word.check_letter(input)
+                puts "Good guess!! #{@word.print_word}"
+            else
+                puts "WRONG! #{@word.print_word}"
+                @guesses -= 1
+            end
+
+            if check_end_game
+                break
+            end
         end
     end
-    def end_game guesses
-        if guesses == 0
-            puts "Game Over"
+    def check_end_game
+        puts "!!! #{@guesses}"
+        if @word.complete?
+            puts "Winner Winner Chicken Dinner!!!"
+            true
+        elsif @guesses == 0
+            puts "Suck it gebrone. You have lost." 
+            true
+        else
+            false
         end
     end
 end
 
+new_game = Hangman.new
+new_game.play_game
 
-
-loop do 
-    print "would you like to play hangman? Y or N"
-    input = gets.chomp
-    if input == "y"
-        puts "I'm thinking of a word...pick a letter"
-        new_game = Hangman.new
-    elsif input == "n"
-        puts "fine, don't play."
-        break
-    end        
-end
+# loop do 
+#     print "would you like to play hangman? Y or N"
+#     input = gets.chomp
+#     if input == "y"
+#         puts "I'm thinking of a word...pick a letter"
+#         new_game = Hangman.new
+#         new_game.play_game
+#     elsif input == "n"
+#         puts "fine, don't play."
+#         break
+#     end        
+# end
