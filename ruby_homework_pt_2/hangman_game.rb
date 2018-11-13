@@ -16,34 +16,56 @@
 
 # player goes until there are 10 strikes or complet word
 
-require 'bundler'
-Bundler.require()
 
-word_array = ["knot", "tie", "bow", "needle"]
+# Goal of the game is to have it pick a word and see if the letters
+# guessed match the word
 
 class Word
+    WORD_ARRAY = ["knot", "tie", "bow", "needle"].freeze
+
     attr_accessor :game_word
+
     def initialize
-        @game_word = @word_array.sample
+        @game_word = WORD_ARRAY.sample
+        @guessed_word = '_' * @game_word.length
     end
+
+    def check_letter(letter)
+        match = false
+        @game_word.chars.each_with_index do |char, i|
+            if char.eql?(letter)
+                match = true
+                @guessed_word[i] = letter
+            end
+        end
+
+        return match
+    end
+
+    def print_word
+        p @guessed_word
+    end
+    
+    def complete? 
+        if @game_word == @guessed_word
+            true
+        end
+    end
+
 end    
 
 class Hangman
 
     def initialize
-        @word = ''
+        @word = Word.new
         @guesses = 10
     end
-    def pick_word 
-       @word = Word.new 
-    end
-    def check_letter word, guesses
-        if input == @word[0]
-            puts @word[0]
-        else guesses -= 1
-            puts "incorrect"
+    def play_game
+        loop do 
+            puts 
+            input = get.chomp
+            if input == Word.check_letter
         end
-            
     end
     def end_game guesses
         if guesses == 0
@@ -52,22 +74,16 @@ class Hangman
     end
 end
 
-new_game = Hangman.new
-new_game.pick_word
-
-p new_game.word
 
 
-
-# loop do 
-#     print "would you like to play hangman? Y or N"
-#     input = gets.chomp
-#     if input == "y"
-#         puts "I'm thinking of a word...pick a letter"
-#         new_game = Hangman.new
-#         new_game.pick_word
-#     elsif input == "n"
-#         puts "fine, don't play."
-#         break
-#     end        
-# end
+loop do 
+    print "would you like to play hangman? Y or N"
+    input = gets.chomp
+    if input == "y"
+        puts "I'm thinking of a word...pick a letter"
+        new_game = Hangman.new
+    elsif input == "n"
+        puts "fine, don't play."
+        break
+    end        
+end
